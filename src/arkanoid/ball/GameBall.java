@@ -24,7 +24,7 @@ public class GameBall extends Ball {
     private ArrayList<GameBall> balls;
     private ArrayList<ShapeBlock> blocks;
 
-    public GameBall(GamePad padBottom, ArrayList<GameBall> balls, ArrayList<ShapeBlock> blocks, Point p, Color c, int dx, int dy, int diameter, Container parent) {
+    public GameBall(Point p, Color c, int dx, int dy, int diameter, Container parent, GamePad padBottom, ArrayList<GameBall> balls, ArrayList<ShapeBlock> blocks) {
         super(p, c, dx, dy, diameter, parent);
         this.padBottom = padBottom;
         this.balls = balls;

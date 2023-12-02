@@ -28,6 +28,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.util.ArrayList;
 import javax.swing.JLabel;
+import arkanoid.block.Block;
+import arkanoid.block.ShapeBlock;
 
 /**
  *
@@ -38,8 +40,9 @@ public class Board extends javax.swing.JFrame implements ActionListener {
  */
 public class Board extends javax.swing.JFrame implements ActionListener {
     private GamePanel panel = new GamePanel();
-    private GamePad pad = new GamePad(580, 100, 600,    200, Color.ORANGE, this);
-    private ArrayList<GameThread> gameThreads =new ArrayList<>();
+    private GamePad pad = new GamePad(580, 100, 600 - 2, 200, Color.ORANGE, this);
+    private ArrayList<GameThread> gameThreads = new ArrayList<>();
+    private ArrayList<ShapeBlock> blocks = new ArrayList<>();
     private int speed = Constants.SPEED_SLOW;
     private int ballsPrefences = Constants.BALLS_ONE;
     private boolean pause = false;
@@ -146,21 +149,6 @@ public class Board extends javax.swing.JFrame implements ActionListener {
         menuBar.add(recordsMenu);
         
         //-----------------------------------------------------------------------------------
-        // GAME
-        /*
-        ArrayList<GameBall> balls=new ArrayList<GameBall>();
-        Random r = new Random();
-        ball1 = new GameBall(new Point(r.nextInt(650)+10, 100), Color.RED, 1, 1, 10, panel, pad, balls);
-        panel.add(ball1);
-        ball2 = new GameBall(new Point(r.nextInt(450)+10, 100), Color.BLUE, 1, 1, 10, panel, pad, balls);
-        panel.add(ball2);
-        ball3 = new GameBall(new Point(r.nextInt(250)+10, 100), Color.GREEN, 1, 1, 10, panel, pad, balls);
-        panel.add(ball3);
-        balls.add(ball1); balls.add(ball2); balls.add(ball3);
-        
-        gameThread = new GameThread(ball1, speed, "GameThread");
-        gameThread2 = new GameThread(ball2, speed, "GameThread");
-        gameThread3 = new GameThread(ball3, speed, "GameThread");*/
         
         panel.add(pad);
         this.add(panel, BorderLayout.CENTER);
@@ -171,18 +159,12 @@ public class Board extends javax.swing.JFrame implements ActionListener {
         cronometroLabel.setHorizontalAlignment(JLabel.CENTER); // Centrar el texto
         cronometroLabel.setFont(new Font("Arial", Font.BOLD, 32)); // Fuente y tamaño
         panel.add(cronometroLabel);
-        
 
         // Establecer el layout del panel como FlowLayout para centrar el JLabel
         panel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 10));
         timer = new TimerThread(0,0,0,cronometroLabel);
         this.add(panel, BorderLayout.CENTER);
         this.add(menuBar, BorderLayout.NORTH);
-        
-        
-        
-        
-        
         
         // Movilidad del GamePad
         this.addKeyListener(new KeyAdapter() {
@@ -214,7 +196,7 @@ public class Board extends javax.swing.JFrame implements ActionListener {
         //initComponents();
         this.setTitle("Arkanoid");
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.setSize(WIDTH, HEIGHT);
+        this.setSize(Constants.WIDTH, Constants.HEIGHT);
         this.setResizable(false); 
     }
     
@@ -226,19 +208,21 @@ public class Board extends javax.swing.JFrame implements ActionListener {
                 ArrayList<GameBall> balls =new ArrayList<>();
                 Random r = new Random();
                 int aux = 10;
-                
-                for(int i=0;i<5;i++){
-                    int xmove=0;
-                    for(int j=0;j<12;j++){
-                        
+                int width = 41, height = 20;
+                int py = 10;
+                for(int i = 0; i < 5; i++){
+                    int px = 16;
+                    for(int j = 0; j < 12; j++){
+                        Point p = new Point(px,py);
+                        Block b = new Block(p, new Color(255, 73, 73), width, height, panel);
+                        panel.add(b);
+                        px += 16 + width;
                     }
-                    
-                    
+                    py += 10 + height;
                 }
                 
-                
                 for(int i = 0; i < ballsPrefences; i++) {
-                    GameBall gameBall = new GameBall(new Point(r.nextInt(650)+aux, 300), Color.RED, 1, 1, 10, panel, pad, balls);
+                    GameBall gameBall = new GameBall(new Point(r.nextInt(650)+aux, 300), Color.RED, 1, 1, 10, panel, pad, balls, blocks);
                     balls.add(gameBall);
                     panel.add(gameBall);
                     GameThread gameThread = new GameThread(gameBall, speed, "GameThread_" + i+1);
