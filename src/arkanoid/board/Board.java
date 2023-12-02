@@ -224,6 +224,7 @@ public class Board extends javax.swing.JFrame implements ActionListener {
                 int aux = 10;
                 for(int i = 0; i < ballsPrefences; i++) {
                     GameBall gameBall = new GameBall(new Point(r.nextInt(650)+aux, 100), Color.RED, 1, 1, 10, panel, pad, balls);
+                    balls.add(gameBall);
                     panel.add(gameBall);
                     GameThread gameThread = new GameThread(gameBall, speed, "GameThread_" + i+1);
                     gameThreads.add(gameThread);

@@ -20,7 +20,7 @@ import java.util.ArrayList;
  */
 public class GameBall extends Ball {
     private GamePad padBottom;
-    private ArrayList<GameBall> balls ;
+    private ArrayList<GameBall> balls;
 
     public GameBall(Point p, Color c, int dx, int dy, int diameter, Container parent, GamePad padBottom,ArrayList<GameBall> balls ) {
         super(p, c, dx, dy, diameter, parent);
@@ -48,7 +48,7 @@ public class GameBall extends Ball {
         }
 
         // Colisión con otras pelotas
-        for (GameBall otherBall : balls) {
+        for (GameBall otherBall : balls) { 
             if(otherBall!=null){
                 if (otherBall != this && intersects(otherBall)) {
                     // Rebote entre pelotas
