@@ -28,4 +28,6 @@ public class Constants {
     public static final int BALLS_ONE = 1;
     public static final int BALLS_TWO = 2;
     public static final int BALLS_THREE = 3;
+    public static final int WIDTH=700;
+    public static final int HEIGHT=650;
 }

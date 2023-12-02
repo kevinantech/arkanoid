@@ -5,6 +5,7 @@
  */
 package arkanoid.ball;
 
+import arkanoid.block.ShapeBlock;
 import arkanoid.pad.GamePad;
 
 import java.awt.Color;
@@ -21,12 +22,16 @@ import java.util.ArrayList;
 public class GameBall extends Ball {
     private GamePad padBottom;
     private ArrayList<GameBall> balls;
+    private ArrayList<ShapeBlock> blocks;
 
-    public GameBall(Point p, Color c, int dx, int dy, int diameter, Container parent, GamePad padBottom,ArrayList<GameBall> balls ) {
+    public GameBall(GamePad padBottom, ArrayList<GameBall> balls, ArrayList<ShapeBlock> blocks, Point p, Color c, int dx, int dy, int diameter, Container parent) {
         super(p, c, dx, dy, diameter, parent);
         this.padBottom = padBottom;
         this.balls = balls;
+        this.blocks = blocks;
     }
+
+    
 
     @Override
     public void move() {
@@ -60,7 +65,16 @@ public class GameBall extends Ball {
                     otherBall.dy = tempDy;
                 }
             }
-        }    
+        }
+        
+        for (ShapeBlock block : blocks) {
+            if (block != null && block.isActive() && block.intersects(this)==true ) {
+                // Bloque golpeado, desactivar el bloque
+                block.deactivate();
+                // Puedes agregar más lógica aquí, como cambiar la dirección de la pelota, aumentar puntaje, etc.
+            }
+        }
+        
 
         // Mover la pelota
         p.x += dx;

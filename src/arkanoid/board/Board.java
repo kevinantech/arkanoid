@@ -180,6 +180,10 @@ public class Board extends javax.swing.JFrame implements ActionListener {
         this.add(menuBar, BorderLayout.NORTH);
         
         
+        
+        
+        
+        
         // Movilidad del GamePad
         this.addKeyListener(new KeyAdapter() {
             @Override
@@ -210,7 +214,7 @@ public class Board extends javax.swing.JFrame implements ActionListener {
         //initComponents();
         this.setTitle("Arkanoid");
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.setSize(700, 650);
+        this.setSize(WIDTH, HEIGHT);
         this.setResizable(false); 
     }
     
@@ -222,8 +226,19 @@ public class Board extends javax.swing.JFrame implements ActionListener {
                 ArrayList<GameBall> balls =new ArrayList<>();
                 Random r = new Random();
                 int aux = 10;
+                
+                for(int i=0;i<5;i++){
+                    int xmove=0;
+                    for(int j=0;j<12;j++){
+                        
+                    }
+                    
+                    
+                }
+                
+                
                 for(int i = 0; i < ballsPrefences; i++) {
-                    GameBall gameBall = new GameBall(new Point(r.nextInt(650)+aux, 100), Color.RED, 1, 1, 10, panel, pad, balls);
+                    GameBall gameBall = new GameBall(new Point(r.nextInt(650)+aux, 300), Color.RED, 1, 1, 10, panel, pad, balls);
                     balls.add(gameBall);
                     panel.add(gameBall);
                     GameThread gameThread = new GameThread(gameBall, speed, "GameThread_" + i+1);

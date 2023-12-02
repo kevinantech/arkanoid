@@ -5,7 +5,7 @@
  */
 package arkanoid.thread;
 
-import arkanoid.ball.Shape;
+import arkanoid.ball.ShapeBall;
 
 /**
  *
@@ -13,11 +13,11 @@ import arkanoid.ball.Shape;
  * http://code-stream.blogspot.com/2012/03/arkanoid-like-java-based-game.html
  */
 public class GameThread extends Thread{
-    Shape shape;
+    ShapeBall shape;
     int speed;
     private volatile boolean pause = false;
  
-    public GameThread(Shape shape, int speed, String name){
+    public GameThread(ShapeBall shape, int speed, String name){
         super(name);
         this.shape = shape;
         this.speed = speed;

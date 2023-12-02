@@ -19,16 +19,16 @@ import java.awt.Point;
  * @author jc_go
  * http://code-stream.blogspot.com/2012/03/arkanoid-like-java-based-game.html
  */
-public abstract class Shape implements Paintable, Movable {
-    Point p;
+public abstract class ShapeBall implements Paintable, Movable {
+    public Point p;
     Color c;
     int dx;
     int dy;
-    int width;
-    int height;
+    public int width;
+    public int height;
     public Container parent;
 
-    Shape(Point p, Color c, int dx, int dy, int width, int height, Container parent) {
+    ShapeBall(Point p, Color c, int dx, int dy, int width, int height, Container parent) {
         this.p = p;
         this.c = c;
         this.dx = dx;
@@ -62,7 +62,7 @@ public abstract class Shape implements Paintable, Movable {
     @Override
     abstract public void paint(Graphics2D g);
 
-    public boolean intersects(Shape other) {
+    public boolean intersects(ShapeBall other) {
         return p.x < other.p.x + other.width &&
                p.x + width > other.p.x &&
                p.y < other.p.y + other.height &&
