@@ -21,8 +21,9 @@ public class Score {
     }
     
     
-    public void increaseScore(){
-        value+=500;
+    public synchronized void increaseScore(){
+        value+=100;
+        System.out.println(value);
         scoreLabel.setText(String.valueOf(value));
     }
     

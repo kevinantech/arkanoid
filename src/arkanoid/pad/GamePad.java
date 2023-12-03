@@ -41,7 +41,7 @@ public class GamePad implements Paintable {
         left -= dx;
         right -= dx;
         
-        System.out.println(left + " " + right);
+        //System.out.println(left + " " + right);
         Graphics2D g = (Graphics2D) g1;
         paint(g);
     }
@@ -51,7 +51,7 @@ public class GamePad implements Paintable {
             return;
         left += dx;
         right += dx;
-        System.out.println(left + " " + right);
+        //System.out.println(left + " " + right);
         Graphics2D g = (Graphics2D) g1;
         paint(g);
     }

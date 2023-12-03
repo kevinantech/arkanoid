@@ -41,7 +41,7 @@ public class Board extends javax.swing.JFrame implements ActionListener {
  */
 public class Board extends javax.swing.JFrame implements ActionListener {
     private GamePanel panel = new GamePanel();
-    private GamePad pad = new GamePad(580, 100, 600 - 2, 200, Color.ORANGE, this);
+    private GamePad pad = new GamePad(580, 300, 600, 500, Color.ORANGE, this);
     private ArrayList<GameThread> gameThreads = new ArrayList<>();
     private ArrayList<Block> blocks=new ArrayList<>();
     private int speed = Constants.SPEED_SLOW;
@@ -170,6 +170,10 @@ public class Board extends javax.swing.JFrame implements ActionListener {
         
         JLabel puntaje= new JLabel("0000");
         score=new Score(0,puntaje);
+        puntaje.setHorizontalAlignment(JLabel.RIGHT);
+        puntaje.setFont(new Font("Arial", Font.BOLD,16));
+        panel.add(puntaje);
+        
         
         
         
@@ -234,7 +238,7 @@ public class Board extends javax.swing.JFrame implements ActionListener {
                     GameBall gameBall = new GameBall(new Point(r.nextInt(650)+aux, 300), Color.RED, 1, 1, 10, panel, pad, balls, blocks, score);
                     balls.add(gameBall);
                     panel.add(gameBall);
-                    GameThread gameThread = new GameThread(gameBall, speed, "GameThread_" + i+1);
+                    GameThread gameThread = new GameThread(gameBall, speed, "GameThread_" + String.valueOf(i+1));
                     gameThreads.add(gameThread);
                     initGame(gameThread);
                     aux += 10;

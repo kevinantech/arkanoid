@@ -36,7 +36,7 @@ public abstract class ShapeBlock implements Paintable {
         return isActive;
     }
 
-    public void deactivate() {
+    public void desactivate() {
         isActive = false;
     }
 

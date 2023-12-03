@@ -32,13 +32,13 @@ public class GameBall extends Ball {
         this.padBottom = padBottom;
         this.balls = balls;
         this.blocks = blocks;
+        this.score=score;
     }
 
     @Override
     public void move() {
         // Colisiones con los bordes
         if (p.y + dy > parent.getHeight() - parent.getInsets().bottom) {
-            System.out.println("MORIIII");
            this.isOut = true;
         }
 
@@ -74,7 +74,7 @@ public class GameBall extends Ball {
                 else if (dx < 0 && p.x + dx + width >= block.b.x + block.width) {
                     dx = -dx;
                 }
-                block.deactivate();
+                block.desactivate();
             }    
         }
         // Colisión con otras pelotas
