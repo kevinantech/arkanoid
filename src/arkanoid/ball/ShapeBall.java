@@ -27,6 +27,7 @@ public abstract class ShapeBall implements Paintable, Movable {
     public int width;
     public int height;
     public Container parent;
+    public boolean isOut;
 
     ShapeBall(Point p, Color c, int dx, int dy, int width, int height, Container parent) {
         this.p = p;
@@ -36,28 +37,15 @@ public abstract class ShapeBall implements Paintable, Movable {
         this.width = width;
         this.height = height;
         this.parent = parent;
+        this.isOut = false;
+    }
+    
+    public boolean getIsOut() { 
+        return isOut;
     }
 
     @Override
-    public void move() {
-        if (dy < 0) {
-            if (p.y + dy < 0)
-                dy = -dy;
-        } else {
-            if (p.y + dy > parent.getHeight() - parent.getInsets().bottom - height)
-                dy = -dy;
-        }
-        if (dx < 0) {
-            if (p.x + dx < 0)
-                dx = -dx;
-        } else {
-            if (p.x + dx > parent.getWidth() - parent.getInsets().right - width)
-                dx = -dx;
-        }
-
-        p.x += dx;
-        p.y += dy;
-    }
+    public void move() {}
 
     @Override
     abstract public void paint(Graphics2D g);

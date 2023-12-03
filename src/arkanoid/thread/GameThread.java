@@ -16,6 +16,7 @@ public class GameThread extends Thread{
     ShapeBall shape;
     int speed;
     private volatile boolean pause = false;
+    private boolean stop = false;
  
     public GameThread(ShapeBall shape, int speed, String name){
         super(name);
@@ -38,7 +39,7 @@ public class GameThread extends Thread{
     
     @Override
     public void run() {
-        while (true) {
+        while (!stop) {
             synchronized (this) {
                 while (pause) {
                     try {
@@ -51,6 +52,8 @@ public class GameThread extends Thread{
                 
             shape.parent.repaint();
             shape.move();
+            if(shape.getIsOut()) stop = true;
+            
             try {
                 Thread.sleep(speed);
             }

@@ -32,13 +32,12 @@ public class GameBall extends Ball {
         this.blocks = blocks;
     }
 
-    
-
     @Override
     public void move() {
         // Colisiones con los bordes
-        if (p.y + dy < 0 || p.y + dy > parent.getHeight() - parent.getInsets().bottom - height) {
-            dy = -dy; // Rebote en el eje Y
+        if (p.y + dy > parent.getHeight() - parent.getInsets().bottom) {
+            System.out.println("MORIIII");
+           this.isOut = true;
         }
 
         if (p.x + dx < 0 || p.x + dx > parent.getWidth() - parent.getInsets().right - width) {

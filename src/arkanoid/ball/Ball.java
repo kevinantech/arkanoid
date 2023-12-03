@@ -17,7 +17,7 @@ import java.awt.geom.Ellipse2D;
  * http://code-stream.blogspot.com/2012/03/arkanoid-like-java-based-game.html
  */
 
-public class Ball extends ShapeBall{    
+public class Ball extends ShapeBall{
     Ball(Point p, Color c, int dx, int dy, int diameter, Container parent){
         super(p, c, dx, dy, diameter, diameter, parent);
     }
