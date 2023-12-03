@@ -5,6 +5,7 @@
  */
 package arkanoid.ball;
 
+import arkanoid.block.Block;
 import arkanoid.block.ShapeBlock;
 import arkanoid.pad.GamePad;
 
@@ -22,9 +23,9 @@ import java.util.ArrayList;
 public class GameBall extends Ball {
     private GamePad padBottom;
     private ArrayList<GameBall> balls;
-    private ArrayList<ShapeBlock> blocks;
+    private ArrayList<Block> blocks;
 
-    public GameBall(Point p, Color c, int dx, int dy, int diameter, Container parent, GamePad padBottom, ArrayList<GameBall> balls, ArrayList<ShapeBlock> blocks) {
+    public GameBall(Point p, Color c, int dx, int dy, int diameter, Container parent, GamePad padBottom, ArrayList<GameBall> balls, ArrayList<Block> blocks) {
         super(p, c, dx, dy, diameter, parent);
         this.padBottom = padBottom;
         this.balls = balls;
@@ -51,12 +52,32 @@ public class GameBall extends Ball {
             // Aquí se ha detectado una colisión con la paleta inferior, puedes agregar lógica adicional si es necesario.
 
         }
-
+        
+        for (Block block : blocks) {
+            if (block != null && block.isActive() && block.intersects(this)) {
+                // Rebote en el eje Y
+                if (dy > 0 && p.y + dy <= block.b.y) {
+                    dy = -dy;
+                }
+                // Rebote en el eje X
+                else if (dy < 0 && p.y + dy + height >= block.b.y + block.height) {
+                    dy = -dy;
+                }
+                // Rebote en el eje X
+                if (dx > 0 && p.x + dx <= block.b.x) {
+                    dx = -dx;
+                }
+                // Rebote en el eje X
+                else if (dx < 0 && p.x + dx + width >= block.b.x + block.width) {
+                    dx = -dx;
+                }
+                block.deactivate();
+            }    
+        }
         // Colisión con otras pelotas
         for (GameBall otherBall : balls) { 
             if(otherBall!=null){
                 if (otherBall != this && intersects(otherBall)) {
-                    // Rebote entre pelotas
                     int tempDx = dx;
                     int tempDy = dy;
                     dx = otherBall.dx;
@@ -67,13 +88,6 @@ public class GameBall extends Ball {
             }
         }
         
-        for (ShapeBlock block : blocks) {
-            if (block != null && block.isActive() && block.intersects(this)==true ) {
-                // Bloque golpeado, desactivar el bloque
-                block.deactivate();
-                // Puedes agregar más lógica aquí, como cambiar la dirección de la pelota, aumentar puntaje, etc.
-            }
-        }
         
 
         // Mover la pelota

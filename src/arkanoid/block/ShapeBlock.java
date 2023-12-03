@@ -13,10 +13,10 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 
 public abstract class ShapeBlock implements Paintable {
-    Point b;
-    Color c;
-    int width;
-    int height;
+    public Point b;
+    public Color c;
+    public int width;
+    public int height;
     public Container parent;
     private boolean isActive; // Nuevo atributo para indicar si el bloque está activo
 

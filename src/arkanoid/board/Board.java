@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import javax.swing.JLabel;
 import arkanoid.block.Block;
 import arkanoid.block.ShapeBlock;
+import arkanoid.thread.BlockThread;
 
 /**
  *
@@ -42,7 +43,7 @@ public class Board extends javax.swing.JFrame implements ActionListener {
     private GamePanel panel = new GamePanel();
     private GamePad pad = new GamePad(580, 100, 600 - 2, 200, Color.ORANGE, this);
     private ArrayList<GameThread> gameThreads = new ArrayList<>();
-    private ArrayList<ShapeBlock> blocks = new ArrayList<>();
+    private ArrayList<Block> blocks=new ArrayList<>();
     private int speed = Constants.SPEED_SLOW;
     private int ballsPrefences = Constants.BALLS_ONE;
     private boolean pause = false;
@@ -210,12 +211,16 @@ public class Board extends javax.swing.JFrame implements ActionListener {
                 int aux = 10;
                 int width = 41, height = 20;
                 int py = 10;
-                for(int i = 0; i < 5; i++){
+                
+                for(int k = 0; k < 5; k++){
                     int px = 16;
                     for(int j = 0; j < 12; j++){
                         Point p = new Point(px,py);
                         Block b = new Block(p, new Color(255, 73, 73), width, height, panel);
                         panel.add(b);
+                        blocks.add(b);
+                        BlockThread block=new BlockThread(b,balls,speed);
+                        initBlock(block);
                         px += 16 + width;
                     }
                     py += 10 + height;
@@ -229,6 +234,7 @@ public class Board extends javax.swing.JFrame implements ActionListener {
                     gameThreads.add(gameThread);
                     initGame(gameThread);
                     aux += 10;
+                    
                 }
                 initTime(timer);
                 playing = true;
@@ -316,6 +322,9 @@ public class Board extends javax.swing.JFrame implements ActionListener {
     }
     private void initTime(TimerThread gr){
         gr.start();
+    }
+    private void initBlock(BlockThread gb){
+        gb.start();
     }
 
     /**

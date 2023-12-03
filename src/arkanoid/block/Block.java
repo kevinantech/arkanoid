@@ -25,11 +25,12 @@ public class Block extends ShapeBlock {
 
     @Override
     public void paint(Graphics2D g) {
-        g.setColor(this.c);
-        g.setColor(Color.BLUE);        
-        g.fill(new Rectangle2D.Double(b.x, b.y, width,height));
-        g.drawRect(b.x, b.y, width, height);
-        
+        if(isActive()){
+            g.setColor(this.c);
+            g.setColor(Color.BLUE);        
+            g.fill(new Rectangle2D.Double(b.x, b.y, width,height));
+            g.drawRect(b.x, b.y, width, height);
+        }
     }
     
 }
