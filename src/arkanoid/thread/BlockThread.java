@@ -31,8 +31,6 @@ public class BlockThread extends Thread {
                     e.printStackTrace();
                 }
             }
-
-            // Si el bloque está activo, verifica si colisiona con la pelota
             
 
             try {

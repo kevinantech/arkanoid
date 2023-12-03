@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import javax.swing.JLabel;
 import arkanoid.block.Block;
 import arkanoid.block.ShapeBlock;
-import arkanoid.thread.BlockThread;
+import arkanoid.score.Score;
 
 /**
  *
@@ -49,6 +49,7 @@ public class Board extends javax.swing.JFrame implements ActionListener {
     private boolean pause = false;
     private JMenuItem pauseItem;
     private TimerThread timer;
+    private Score score;
     private boolean playing = false;
     
     public Board() {
@@ -167,6 +168,11 @@ public class Board extends javax.swing.JFrame implements ActionListener {
         this.add(panel, BorderLayout.CENTER);
         this.add(menuBar, BorderLayout.NORTH);
         
+        JLabel puntaje= new JLabel("0000");
+        score=new Score(0,puntaje);
+        
+        
+        
         // Movilidad del GamePad
         this.addKeyListener(new KeyAdapter() {
             @Override
@@ -219,15 +225,13 @@ public class Board extends javax.swing.JFrame implements ActionListener {
                         Block b = new Block(p, new Color(255, 73, 73), width, height, panel);
                         panel.add(b);
                         blocks.add(b);
-                        BlockThread block=new BlockThread(b,balls,speed);
-                        initBlock(block);
                         px += 16 + width;
                     }
                     py += 10 + height;
                 }
                 
                 for(int i = 0; i < ballsPrefences; i++) {
-                    GameBall gameBall = new GameBall(new Point(r.nextInt(650)+aux, 300), Color.RED, 1, 1, 10, panel, pad, balls, blocks);
+                    GameBall gameBall = new GameBall(new Point(r.nextInt(650)+aux, 300), Color.RED, 1, 1, 10, panel, pad, balls, blocks, score);
                     balls.add(gameBall);
                     panel.add(gameBall);
                     GameThread gameThread = new GameThread(gameBall, speed, "GameThread_" + i+1);
@@ -322,9 +326,6 @@ public class Board extends javax.swing.JFrame implements ActionListener {
     }
     private void initTime(TimerThread gr){
         gr.start();
-    }
-    private void initBlock(BlockThread gb){
-        gb.start();
     }
 
     /**

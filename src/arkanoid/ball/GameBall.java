@@ -8,6 +8,7 @@ package arkanoid.ball;
 import arkanoid.block.Block;
 import arkanoid.block.ShapeBlock;
 import arkanoid.pad.GamePad;
+import arkanoid.score.Score;
 
 import java.awt.Color;
 import java.awt.Container;
@@ -24,8 +25,9 @@ public class GameBall extends Ball {
     private GamePad padBottom;
     private ArrayList<GameBall> balls;
     private ArrayList<Block> blocks;
+    private Score score;
 
-    public GameBall(Point p, Color c, int dx, int dy, int diameter, Container parent, GamePad padBottom, ArrayList<GameBall> balls, ArrayList<Block> blocks) {
+    public GameBall(Point p, Color c, int dx, int dy, int diameter, Container parent, GamePad padBottom, ArrayList<GameBall> balls, ArrayList<Block> blocks,Score score) {
         super(p, c, dx, dy, diameter, parent);
         this.padBottom = padBottom;
         this.balls = balls;
@@ -54,6 +56,8 @@ public class GameBall extends Ball {
         
         for (Block block : blocks) {
             if (block != null && block.isActive() && block.intersects(this)) {
+                score.increaseScore();
+                
                 // Rebote en el eje Y
                 if (dy > 0 && p.y + dy <= block.b.y) {
                     dy = -dy;
