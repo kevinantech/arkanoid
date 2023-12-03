@@ -23,7 +23,6 @@ public class Score {
     
     public synchronized void increaseScore(){
         value+=100;
-        System.out.println(value);
         scoreLabel.setText(String.valueOf(value));
     }
     

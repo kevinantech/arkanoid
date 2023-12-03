@@ -39,7 +39,12 @@ public class GameBall extends Ball {
     public void move() {
         // Colisiones con los bordes
         if (p.y + dy > parent.getHeight() - parent.getInsets().bottom) {
+            System.out.println("MORIII");
            this.isOut = true;
+        }
+        
+        if (p.y + dy < 0) {
+        dy = -dy; // Invertir la dirección en el eje Y para simular el rebote en el límite superior
         }
 
         if (p.x + dx < 0 || p.x + dx > parent.getWidth() - parent.getInsets().right - width) {
