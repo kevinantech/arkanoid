@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import javax.swing.JLabel;
 import arkanoid.block.Block;
 import arkanoid.block.ShapeBlock;
+import arkanoid.gameover.GameOver;
 import arkanoid.score.Score;
 
 /**
@@ -238,7 +239,7 @@ public class Board extends javax.swing.JFrame implements ActionListener {
                     GameBall gameBall = new GameBall(new Point(r.nextInt(650)+aux, 300), Color.RED, 1, 1, 10, panel, pad, balls, blocks, score);
                     balls.add(gameBall);
                     panel.add(gameBall);
-                    GameThread gameThread = new GameThread(gameBall, speed, "GameThread_" + String.valueOf(i+1));
+                    GameThread gameThread = new GameThread(gameBall, speed, "GameThread_" + String.valueOf(i+1), gameThreads, timer, new GameOver(this));
                     gameThreads.add(gameThread);
                     initGame(gameThread);
                     aux += 10;

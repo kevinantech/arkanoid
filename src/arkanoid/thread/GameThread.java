@@ -6,6 +6,8 @@
 package arkanoid.thread;
 
 import arkanoid.ball.ShapeBall;
+import arkanoid.gameover.GameOver;
+import java.util.ArrayList;
 
 /**
  *
@@ -17,11 +19,17 @@ public class GameThread extends Thread{
     int speed;
     private volatile boolean pause = false;
     private boolean stop = false;
+    private ArrayList<GameThread> gameThreads;
+    private TimerThread timerThread;
+    private GameOver gameOver;
  
-    public GameThread(ShapeBall shape, int speed, String name){
+    public GameThread(ShapeBall shape, int speed, String name, ArrayList<GameThread> gameThreads, TimerThread timerThread, GameOver gameOver){
         super(name);
         this.shape = shape;
         this.speed = speed;
+        this.gameThreads = gameThreads;
+        this.timerThread = timerThread;
+        this.gameOver = gameOver;
     }
  
     public void setSpeed(int speed){
@@ -43,7 +51,7 @@ public class GameThread extends Thread{
             synchronized (this) {
                 while (pause) {
                     try {
-                        wait(); // el hilo espera si está pausado
+                        wait(); 
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -52,7 +60,14 @@ public class GameThread extends Thread{
                 
             shape.parent.repaint();
             shape.move();
-            if(shape.getIsOut()) stop = true;
+            if(shape.getIsOut()) {
+                stop = true;
+                gameThreads.remove(this);
+                if(gameThreads.size() == 0) {
+                    timerThread.pauseGame();
+                    gameOver.show();
+                }
+            }
             
             try {
                 Thread.sleep(speed);
