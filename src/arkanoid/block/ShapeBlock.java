@@ -41,7 +41,6 @@ public abstract class ShapeBlock implements Paintable {
     }
 
     public boolean intersects(ShapeBall ball) {
-        
         return isActive && b.x < ball.p.x + ball.width &&
                b.x + width > ball.p.x &&
                b.y < ball.p.y + ball.height &&

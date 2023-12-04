@@ -5,6 +5,7 @@
  */
 package arkanoid.ball;
 
+import arkanoid.score.Score;
 import interfaces.Movable;
 import interfaces.Paintable;
 
@@ -28,8 +29,9 @@ public abstract class ShapeBall implements Paintable, Movable {
     public int height;
     public Container parent;
     public boolean isOut;
+    public Score score;
 
-    ShapeBall(Point p, Color c, int dx, int dy, int width, int height, Container parent) {
+    ShapeBall(Point p, Color c, int dx, int dy, int width, int height, Container parent, Score score) {
         this.p = p;
         this.c = c;
         this.dx = dx;
@@ -38,11 +40,14 @@ public abstract class ShapeBall implements Paintable, Movable {
         this.height = height;
         this.parent = parent;
         this.isOut = false;
+        this.score=score;
     }
     
     public boolean getIsOut() { 
         return isOut;
     }
+    
+    
 
     @Override
     public void move() {}

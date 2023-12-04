@@ -25,21 +25,18 @@ public class GameBall extends Ball {
     private GamePad padBottom;
     private ArrayList<GameBall> balls;
     private ArrayList<Block> blocks;
-    private Score score;
 
     public GameBall(Point p, Color c, int dx, int dy, int diameter, Container parent, GamePad padBottom, ArrayList<GameBall> balls, ArrayList<Block> blocks,Score score) {
-        super(p, c, dx, dy, diameter, parent);
+        super(p, c, dx, dy, diameter, parent,score);
         this.padBottom = padBottom;
         this.balls = balls;
         this.blocks = blocks;
-        this.score=score;
     }
 
     @Override
     public void move() {
         // Colisiones con los bordes
         if (p.y + dy > parent.getHeight() - parent.getInsets().bottom) {
-            System.out.println("MORIII");
            this.isOut = true;
         }
         
@@ -59,10 +56,10 @@ public class GameBall extends Ball {
 
         }
         
+        
         for (Block block : blocks) {
             if (block != null && block.isActive() && block.intersects(this)) {
                 score.increaseScore();
-                
                 // Rebote en el eje Y
                 if (dy > 0 && p.y + dy <= block.b.y) {
                     dy = -dy;

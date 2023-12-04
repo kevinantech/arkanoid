@@ -5,6 +5,7 @@
  */
 package arkanoid.ball;
 
+import arkanoid.score.Score;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Graphics2D;
@@ -18,8 +19,8 @@ import java.awt.geom.Ellipse2D;
  */
 
 public class Ball extends ShapeBall{
-    Ball(Point p, Color c, int dx, int dy, int diameter, Container parent){
-        super(p, c, dx, dy, diameter, diameter, parent);
+    Ball(Point p, Color c, int dx, int dy, int diameter, Container parent,Score score){
+        super(p, c, dx, dy, diameter, diameter, parent,score);
     }
      
     @Override
