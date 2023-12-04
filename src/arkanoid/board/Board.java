@@ -29,10 +29,10 @@ import java.awt.Font;
 import java.util.ArrayList;
 import javax.swing.JLabel;
 import arkanoid.block.Block;
-import arkanoid.block.ShapeBlock;
 import arkanoid.gameover.GameOver;
 import arkanoid.gamestate.GameWin;
 import arkanoid.score.Score;
+import interfaces.Paintable;
 
 /**
  *
@@ -44,13 +44,16 @@ public class Board extends javax.swing.JFrame implements ActionListener {
 public class Board extends javax.swing.JFrame implements ActionListener {
     private GamePanel panel = new GamePanel();
     private GamePad pad = new GamePad(580, 300, 600, 500, Color.ORANGE, this);
+    private ArrayList<GameBall> balls = new ArrayList<>();
     private ArrayList<GameThread> gameThreads = new ArrayList<>();
-    private ArrayList<Block> blocks=new ArrayList<>();
+    private ArrayList<Block> blocks = new ArrayList<>();
     private int speed = Constants.SPEED_SLOW;
     private int ballsPrefences = Constants.BALLS_ONE;
     private boolean pause = false;
     private JMenuItem pauseItem;
     private TimerThread timer;
+    JLabel timerLabel = new JLabel("00:00:0000");
+    JLabel scoreLabel = new JLabel("0000");
     private Score score;
     private boolean playing = false;
     
@@ -159,25 +162,21 @@ public class Board extends javax.swing.JFrame implements ActionListener {
         this.add(menuBar, BorderLayout.NORTH);
         
         //Jlabel del cronometro
-        JLabel cronometroLabel = new JLabel("00:00:0000");
-        cronometroLabel.setHorizontalAlignment(JLabel.CENTER); // Centrar el texto
-        cronometroLabel.setFont(new Font("Arial", Font.BOLD, 32)); // Fuente y tamaño
-        panel.add(cronometroLabel);
+        timerLabel.setHorizontalAlignment(JLabel.CENTER); // Centrar el texto
+        timerLabel.setFont(new Font("Arial", Font.BOLD, 32)); // Fuente y tamaño
+        panel.add(timerLabel);
 
         // Establecer el layout del panel como FlowLayout para centrar el JLabel
         panel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 10));
-        timer = new TimerThread(0,0,0,cronometroLabel);
+        timer = new TimerThread(0,0,0,timerLabel);
         this.add(panel, BorderLayout.CENTER);
         this.add(menuBar, BorderLayout.NORTH);
         
-        JLabel puntaje= new JLabel("0000");
-        score=new Score(0,puntaje);
-        puntaje.setHorizontalAlignment(JLabel.RIGHT);
-        puntaje.setFont(new Font("Arial", Font.BOLD,16));
-        panel.add(puntaje);
         
-        
-        
+        score = new Score(0,scoreLabel);
+        scoreLabel.setHorizontalAlignment(JLabel.RIGHT);
+        scoreLabel.setFont(new Font("Arial", Font.BOLD,16));
+        panel.add(scoreLabel);
         
         // Movilidad del GamePad
         this.addKeyListener(new KeyAdapter() {
@@ -192,7 +191,7 @@ public class Board extends javax.swing.JFrame implements ActionListener {
                             break;
                         case 37:
                            pad.moveLeft(panel.getGraphics());
-                           repaint();
+                            repaint();
                             break;
                         case 68:
                             pad.moveRight(panel.getGraphics());
@@ -218,7 +217,6 @@ public class Board extends javax.swing.JFrame implements ActionListener {
         switch(e.getActionCommand()) {
             case Constants.ACTION_PLAY_GAME: {
             if(!playing) {
-                ArrayList<GameBall> balls =new ArrayList<>();
                 Random r = new Random();
                 int aux = 10;
                 int width = 41, height = 20;
@@ -266,9 +264,57 @@ public class Board extends javax.swing.JFrame implements ActionListener {
                 break;
             }
             case Constants.ACTION_RESTART_GAME: {
+                score.restart();
+                Random r = new Random();
+                int aux = 10;
+                int width = 41, height = 20;
+                int py = 10;
+                
+                // Detiene el timer
+                timer.stop();
+                timer = new TimerThread(0, 0, 0, timerLabel);
+                
+                // Limpia los bloques.
+                for(Block b: blocks) panel.remove(b);
+                blocks = new ArrayList<>();
+                
+                for(int k = 0; k < 5; k++){
+                    int px = 16;
+                    for(int j = 0; j < 12; j++){
+                        Point p = new Point(px,py);
+                        Block b = new Block(p, new Color(255, 73, 73), width, height, panel);
+                        panel.add(b);
+                        blocks.add(b);
+                        px += 16 + width;
+                    }
+                    py += 10 + height;
+                }
+                
+                // Detiene y reinicializa el arreglo de hilos para las pelotas.
+                for(GameThread gt: gameThreads) if(gt != null) gt.stop();
+                gameThreads = new ArrayList<>();
+                
+                // Elimina las pelotas del panel y reinicializa el arreglo de pelotas.
+                for(GameBall gb: balls) panel.remove(gb);
+                balls = new ArrayList<>();
+                
+                panel.repaint();
+                
+                for(int i = 0; i < ballsPrefences; i++) {
+                    GameBall gameBall = new GameBall(new Point(r.nextInt(650)+aux, 300), Color.BLUE, 1, 1, 10, panel, pad, balls, blocks, score);
+                    balls.add(gameBall);
+                    panel.add(gameBall);
+                    GameThread gameThread = new GameThread(gameBall, speed, "GameThread_" + String.valueOf(i+1), gameThreads, timer, new GameOver(this),new GameWin(this));
+                    gameThreads.add(gameThread);
+                    initGame(gameThread);
+                    aux += 10;
+                }
+                initTime(timer);
+                playing = true;
                 break;
             }
             case Constants.ACTION_CLOSE_GAME: {
+                this.dispose();
                 break;
             }
             case Constants.ACTION_SPEED_VERY_SLOW: {

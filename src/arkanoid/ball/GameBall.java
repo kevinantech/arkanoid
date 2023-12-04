@@ -6,7 +6,6 @@
 package arkanoid.ball;
 
 import arkanoid.block.Block;
-import arkanoid.block.ShapeBlock;
 import arkanoid.pad.GamePad;
 import arkanoid.score.Score;
 

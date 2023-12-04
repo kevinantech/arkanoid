@@ -73,7 +73,7 @@ public class GameThread extends Thread{
                 }
             }
             if(shape.score.getScore()==6000){
-                pause=true;
+                pause = true;
                 timerThread.pauseGame();
                 gamewin.show();
             }

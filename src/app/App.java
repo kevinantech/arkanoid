@@ -6,7 +6,6 @@
 package app;
 
 import arkanoid.board.Board;
-
 public class App {
     /**
      * @param args the command line arguments
@@ -14,7 +13,6 @@ public class App {
     public static void main(String[] args) {
         Board b = new Board();
         b.setVisible(true); 
-    
     }
     
 }

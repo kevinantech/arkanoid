@@ -20,6 +20,10 @@ import javax.swing.JPanel;
 public class GamePanel extends JPanel {
     private final ArrayList<Paintable> list = new ArrayList<>();
     
+    public ArrayList<Paintable> getList() {
+       return list;
+    }
+    
     public void add(Paintable obj) {
         this.list.add(obj);
     }

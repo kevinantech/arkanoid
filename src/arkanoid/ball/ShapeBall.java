@@ -46,8 +46,6 @@ public abstract class ShapeBall implements Paintable, Movable {
     public boolean getIsOut() { 
         return isOut;
     }
-    
-    
 
     @Override
     public void move() {}

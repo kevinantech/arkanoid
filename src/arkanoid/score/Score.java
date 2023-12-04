@@ -21,8 +21,13 @@ public class Score {
     }
     
     
+    public void restart() {
+        this.value = 0;
+        scoreLabel.setText(String.valueOf(value));
+    }
+    
     public synchronized void increaseScore(){
-        value+=100;
+        value += 100;
         scoreLabel.setText(String.valueOf(value));
     }
     
