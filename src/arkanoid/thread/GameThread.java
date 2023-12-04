@@ -6,8 +6,7 @@
 package arkanoid.thread;
 
 import arkanoid.ball.ShapeBall;
-import arkanoid.gameover.GameOver;
-import arkanoid.gamestate.GameWin;
+import arkanoid.gamestate.*;
 import java.util.ArrayList;
 
 /**

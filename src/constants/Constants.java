@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package constants;
+import java.awt.Color;
 
 /**
  *
@@ -30,4 +31,7 @@ public class Constants {
     public static final int BALLS_THREE = 3;
     public static final int WIDTH = 716;
     public static final int HEIGHT = 650;
+    public static final Color primaryColor = new Color(102, 102, 255);
+    public static final Color secondaryColor = new Color(255, 255, 102);
+    public static final Color thirdColor = new Color(102, 255, 255);
 }

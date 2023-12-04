@@ -59,8 +59,6 @@ public class GamePad implements Paintable {
     @Override
     public void paint(Graphics2D g) {
         g.setColor(this.clr);
-        g.fillRoundRect(left, top, right-left, bottom-top, 40, 8);
-        g.setColor(Color.GRAY);
-        g.drawRoundRect(left, top, right-left, bottom-top, 40, 8);         
+        g.fillRect(left, top, right-left, bottom-top);        
     }
 }

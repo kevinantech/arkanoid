@@ -5,12 +5,12 @@
  */
 package arkanoid.block;
 
+import constants.Constants;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.geom.Rectangle2D;
-import java.util.HashSet;
 
 /**
  *
@@ -27,7 +27,7 @@ public class Block extends ShapeBlock {
     public void paint(Graphics2D g) {
         if(isActive()){
             g.setColor(this.c);
-            g.setColor(Color.BLUE);        
+            g.setColor(Constants.secondaryColor);        
             g.fill(new Rectangle2D.Double(b.x, b.y, width,height));
             g.drawRect(b.x, b.y, width, height);
         }

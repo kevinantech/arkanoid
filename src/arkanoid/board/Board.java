@@ -29,10 +29,8 @@ import java.awt.Font;
 import java.util.ArrayList;
 import javax.swing.JLabel;
 import arkanoid.block.Block;
-import arkanoid.gameover.GameOver;
-import arkanoid.gamestate.GameWin;
+import arkanoid.gamestate.*;
 import arkanoid.score.Score;
-import interfaces.Paintable;
 
 /**
  *
@@ -43,7 +41,7 @@ public class Board extends javax.swing.JFrame implements ActionListener {
  */
 public class Board extends javax.swing.JFrame implements ActionListener {
     private GamePanel panel = new GamePanel();
-    private GamePad pad = new GamePad(580, 300, 600, 500, Color.ORANGE, this);
+    private GamePad pad = new GamePad(580, 300, 600, 500, Color.WHITE, this);
     private ArrayList<GameBall> balls = new ArrayList<>();
     private ArrayList<GameThread> gameThreads = new ArrayList<>();
     private ArrayList<Block> blocks = new ArrayList<>();
@@ -58,7 +56,7 @@ public class Board extends javax.swing.JFrame implements ActionListener {
     private boolean playing = false;
     
     public Board() {
-        panel.setBackground(Color.WHITE);
+        panel.setBackground(Constants.primaryColor);
         JMenuBar menuBar = new JMenuBar();  
         
         /**
@@ -264,7 +262,9 @@ public class Board extends javax.swing.JFrame implements ActionListener {
                 break;
             }
             case Constants.ACTION_RESTART_GAME: {
-                score.restart();
+                this.pauseItem.setText("Pause");
+                this.pause = false;
+                this.score.restart();
                 Random r = new Random();
                 int aux = 10;
                 int width = 41, height = 20;
@@ -301,7 +301,7 @@ public class Board extends javax.swing.JFrame implements ActionListener {
                 panel.repaint();
                 
                 for(int i = 0; i < ballsPrefences; i++) {
-                    GameBall gameBall = new GameBall(new Point(r.nextInt(650)+aux, 300), Color.BLUE, 1, 1, 10, panel, pad, balls, blocks, score);
+                    GameBall gameBall = new GameBall(new Point(r.nextInt(650)+aux, 300), Color.RED, 1, 1, 10, panel, pad, balls, blocks, score);
                     balls.add(gameBall);
                     panel.add(gameBall);
                     GameThread gameThread = new GameThread(gameBall, speed, "GameThread_" + String.valueOf(i+1), gameThreads, timer, new GameOver(this),new GameWin(this));
