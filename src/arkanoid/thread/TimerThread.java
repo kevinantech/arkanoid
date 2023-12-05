@@ -26,6 +26,10 @@ public class TimerThread extends Thread {
         pause = false;
         notify();
     }
+    
+    public synchronized float getTimeInMinutes() {
+        return (float)minutes  + ((float)seconds / 60) + ((float)miliseconds / 60000);
+    }
 
     @Override
     public void run() {

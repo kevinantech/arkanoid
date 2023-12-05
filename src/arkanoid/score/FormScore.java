@@ -5,12 +5,18 @@
  */
 package arkanoid.score;
 
+import arkanoid.records.Record;
+import arkanoid.records.RecordManager;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author KEVIN ANDRES GOMEZ M
  */
 public class FormScore extends javax.swing.JFrame {
-
+    private float score;
+    private int numBalls;
+    private String speedType;
     /**
      * Creates new form FormScore
      */
@@ -18,6 +24,13 @@ public class FormScore extends javax.swing.JFrame {
         initComponents();
     }
 
+    public FormScore(float score, int numBalls, String speedType) {
+        this.score = score;
+        this.numBalls = numBalls;
+        this.speedType = speedType;
+        initComponents();
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -36,7 +49,6 @@ public class FormScore extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(300, 300));
         setResizable(false);
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -87,6 +99,11 @@ public class FormScore extends javax.swing.JFrame {
         jButton1.setFont(new java.awt.Font("JetBrains Mono", 3, 12)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 0));
         jButton1.setText("SAVE");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -140,6 +157,15 @@ public class FormScore extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        String initials = this.jTextField1.getText().trim();
+        if(initials.length() > 5 ) JOptionPane.showMessageDialog(this, "Max. 5 characters.");
+        else {
+            RecordManager.saveNewRecord(new Record(initials, score, numBalls, speedType));
+            JOptionPane.showMessageDialog(this, "SUCCESSFULLY SAVED");
+        }
+    }//GEN-LAST:event_jButton1MouseClicked
 
     /**
      * @param args the command line arguments

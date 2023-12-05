@@ -52,6 +52,7 @@ public class Board extends javax.swing.JFrame implements ActionListener {
     private TimerThread timer;
     JLabel timerLabel = new JLabel("00:00:0000");
     JLabel scoreLabel = new JLabel("0000");
+    ButtonGroup speedBtnGroup = new ButtonGroup();
     private Score score;
     private boolean playing = false;
     
@@ -94,7 +95,6 @@ public class Board extends javax.swing.JFrame implements ActionListener {
          * Submenu "Speed"
          */
         JMenu speedSubmenu = new JMenu("Speed");
-        ButtonGroup speedBtnGroup = new ButtonGroup();
         JRadioButtonMenuItem verySlowOption = new JRadioButtonMenuItem("Very slow");
         verySlowOption.setActionCommand(Constants.ACTION_SPEED_VERY_SLOW);
         verySlowOption.addActionListener(this);
@@ -236,7 +236,15 @@ public class Board extends javax.swing.JFrame implements ActionListener {
                     GameBall gameBall = new GameBall(new Point(r.nextInt(650)+aux, 300), Color.RED, 1, 1, 10, panel, pad, balls, blocks, score);
                     balls.add(gameBall);
                     panel.add(gameBall);
-                    GameThread gameThread = new GameThread(gameBall, speed, "GameThread_" + String.valueOf(i+1), gameThreads, timer, new GameOver(this),new GameWin(this));
+                    GameThread gameThread = new GameThread(
+                            gameBall, 
+                            speed, 
+                            this.speedBtnGroup.getSelection().getActionCommand(), 
+                            "GameThread_" + String.valueOf(i+1), 
+                            gameThreads, timer, 
+                            new GameOver(this), 
+                            new GameWin(this)
+                        );
                     gameThreads.add(gameThread);
                     initGame(gameThread);
                     aux += 10;
@@ -304,7 +312,16 @@ public class Board extends javax.swing.JFrame implements ActionListener {
                     GameBall gameBall = new GameBall(new Point(r.nextInt(650)+aux, 300), Color.RED, 1, 1, 10, panel, pad, balls, blocks, score);
                     balls.add(gameBall);
                     panel.add(gameBall);
-                    GameThread gameThread = new GameThread(gameBall, speed, "GameThread_" + String.valueOf(i+1), gameThreads, timer, new GameOver(this),new GameWin(this));
+                    GameThread gameThread = new GameThread(
+                            gameBall, 
+                            speed, 
+                            this.speedBtnGroup.getSelection().getActionCommand(),
+                            "GameThread_" + String.valueOf(i+1), 
+                            gameThreads, 
+                            timer, 
+                            new GameOver(this),
+                            new GameWin(this)
+                        );
                     gameThreads.add(gameThread);
                     initGame(gameThread);
                     aux += 10;
@@ -320,40 +337,32 @@ public class Board extends javax.swing.JFrame implements ActionListener {
             case Constants.ACTION_SPEED_VERY_SLOW: {
                 this.speed = Constants.SPEED_VERY_SLOW;
                 gameThreads.forEach((g) -> {
-                    if(g != null) { 
-                        System.out.println("Velocidad Cambiada: " + speed);
+                    if(g != null)
                         g.setSpeed(speed);
-                    }
                 });
                 break;
             }
             case Constants.ACTION_SPEED_SLOW: {
                 this.speed = Constants.SPEED_SLOW;
                 gameThreads.forEach((g) -> {
-                    if(g != null) { 
-                        System.out.println("Velocidad Cambiada: " + speed);
+                    if(g != null)
                         g.setSpeed(speed);
-                    }
                 });
                 break;
             }
             case Constants.ACTION_SPEED_NORMAL: {
                 this.speed = Constants.SPEED_FAST;
                 gameThreads.forEach((g) -> {
-                    if(g != null) { 
-                        System.out.println("Velocidad Cambiada: " + speed);
+                    if(g != null)
                         g.setSpeed(speed);
-                    }
                 });
                 break;
             }
             case Constants.ACTION_SPEED_FAST: {
                 this.speed = Constants.SPEED_VERY_FAST;
                 gameThreads.forEach((g) -> {
-                    if(g != null) { 
-                        System.out.println("Velocidad Cambiada: " + speed);
+                    if(g != null)
                         g.setSpeed(speed);
-                    }
                 });
                 break;
             }

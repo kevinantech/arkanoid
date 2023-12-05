@@ -7,6 +7,7 @@ package arkanoid.thread;
 
 import arkanoid.ball.ShapeBall;
 import arkanoid.gamestate.*;
+import arkanoid.records.RecordManager;
 import java.util.ArrayList;
 
 /**
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 public class GameThread extends Thread{
     ShapeBall shape;
     int speed;
+    private String typeSpeed;
     private volatile boolean pause = false;
     private boolean stop = false;
     private ArrayList<GameThread> gameThreads;
@@ -24,10 +26,19 @@ public class GameThread extends Thread{
     private GameOver gameOver;
     private GameWin gamewin;
  
-    public GameThread(ShapeBall shape, int speed, String name, ArrayList<GameThread> gameThreads, TimerThread timerThread, GameOver gameOver, GameWin gamewin){
+    public GameThread(
+            ShapeBall shape, 
+            int speed, 
+            String typeSpeed, 
+            String name, 
+            ArrayList<GameThread> gameThreads, 
+            TimerThread timerThread, 
+            GameOver gameOver, 
+            GameWin gamewin) {
         super(name);
         this.shape = shape;
         this.speed = speed;
+        this.typeSpeed = typeSpeed;
         this.gameThreads = gameThreads;
         this.timerThread = timerThread;
         this.gameOver = gameOver;
@@ -71,10 +82,19 @@ public class GameThread extends Thread{
                     gameOver.show();
                 }
             }
-            if(shape.score.getScore()==6000){
-                pause = true;
+            if(shape.score.getScore()==300){
                 timerThread.pauseGame();
                 gamewin.show();
+                
+                // En caso de victoria gestiona si el puntaje amerita de nuevo record.
+                new RecordManager(
+                        shape.score.getScore(), 
+                        gameThreads.size(), 
+                        typeSpeed, 
+                        timerThread.getTimeInMinutes()
+                    ).manageScore();
+                
+                pause = true;
             }
             try {
                 Thread.sleep(speed);
