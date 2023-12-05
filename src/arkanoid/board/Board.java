@@ -237,7 +237,7 @@ public class Board extends javax.swing.JFrame implements ActionListener {
                 }
                 
                 for(int i = 0; i < ballsPrefences; i++) {
-                    GameBall gameBall = new GameBall(new Point(r.nextInt(650)+aux, 300), Color.RED, 1, 1, 10, panel, pad, balls, blocks, score);
+                    GameBall gameBall = new GameBall(new Point(r.nextInt(650)+aux, 300), Color.RED, 1, 1, 15, panel, pad, balls, blocks, score);
                     balls.add(gameBall);
                     panel.add(gameBall);
                     GameThread gameThread = new GameThread(
@@ -313,7 +313,7 @@ public class Board extends javax.swing.JFrame implements ActionListener {
                 panel.repaint();
                 
                 for(int i = 0; i < ballsPrefences; i++) {
-                    GameBall gameBall = new GameBall(new Point(r.nextInt(650)+aux, 300), Color.RED, 1, 1, 10, panel, pad, balls, blocks, score);
+                    GameBall gameBall = new GameBall(new Point(r.nextInt(650)+aux, 300), Color.RED, 1, 1, 15, panel, pad, balls, blocks, score);
                     balls.add(gameBall);
                     panel.add(gameBall);
                     GameThread gameThread = new GameThread(
