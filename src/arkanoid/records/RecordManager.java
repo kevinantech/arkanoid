@@ -99,20 +99,24 @@ public class RecordManager {
     }
     
     static public void saveNewRecord(Record r) {
-        
         Record records[] = RecordManager.getRecordsFromFile();
-        // Reemplaza el record con menor puntuacion en el arreglo.
-        records[records.length - 1] = r;
         
-        // LLena el arreglo para valores nulos 
-        for(int i = 0; i < records.length; i++) {
-            if(records[i] == null) records[i] = new Record("", 0, 0, "");
+        
+        int itemsFounds = 0;
+        for(Record rec: records) {
+            if(rec != null) itemsFounds++;
         }
         
+        // Si hay menos de 5 elementos lo añade de ultimo
+        if(itemsFounds < 5) records[itemsFounds] = r;
+        
+        // Si el arreglo esta completo entonces reemplaza al ultimo elemento.
+        else records[4] = r;
+        
         // Organiza el arreglo.
-        for(int i = 0; i < records.length - 1; i++) {
-            for(int j = 0; j < records.length - i - 1; i++) {
-                if (records[j].getScore() > records[j + 1].getScore()) {
+        for(int i = 0; i < itemsFounds - 1; i++) {
+            for(int j = 0; j < itemsFounds - i - 1; i++) {
+                if (records[j].getScore() < records[j + 1].getScore()) {
                     Record temp = records[j];
                     records[j] = records[j + 1];
                     records[j + 1] = temp;
@@ -120,24 +124,21 @@ public class RecordManager {
             }
         }
         
-        
         // Escribe en el archivo.
-        
         try {
-            // Crear un objeto FileWriter para escribir en el archivo
             FileWriter fileWriter = new FileWriter("data//records.csv");
-
-            // Envolver FileWriter en un BufferedWriter para mejorar la eficiencia de escritura
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
 
-            // Escribir cada línea en el archivo
+            // Escribe el header.
             bufferedWriter.write("initials,score,balls,speed");
+            
             for (Record rec: records) {
-                bufferedWriter.newLine();
-                bufferedWriter.write(rec.getInitials() + "," + rec.getScore() + "," + rec.getNumBalls() + "," + rec.getSpeedType());
+                if(rec != null) {
+                    bufferedWriter.newLine();
+                    bufferedWriter.write(rec.getInitials() + "," + rec.getScore() + "," + rec.getNumBalls() + "," + rec.getSpeedType());
+                }
             }
 
-            // Cerrar el BufferedWriter después de escribir
             bufferedWriter.close();
             System.out.println("Líneas escritas exitosamente en el archivo.");
         } catch (IOException e) {
