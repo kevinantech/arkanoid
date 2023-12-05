@@ -5,17 +5,57 @@
  */
 package arkanoid.records;
 
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import javax.swing.BorderFactory;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
 /**
  *
  * @author KEVIN ANDRES GOMEZ M
  */
-public class RecordsFrame extends javax.swing.JFrame {
-
+public class RecordsFrame extends JFrame {
+    
     /**
      * Creates new form Records
      */
     public RecordsFrame() {
         initComponents();
+        this.setLayout(new GridLayout(5, 1));
+    }
+    
+    public void display() {
+        this.setLocationRelativeTo(null);
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        
+        JFrame thisReference = this;
+        
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                // En lugar de cerrar el frame, ocultarlo
+                thisReference.setVisible(false);
+            }
+        });
+        
+        Record records[] = RecordManager.getRecordsFromFile();
+        
+        for(Record r: records) {
+            if(r != null) {
+                JPanel panel = new JPanel();
+                panel.setBorder(BorderFactory.createTitledBorder(r.getInitials())); // Establecer el borde con el nombre del panel
+                panel.setPreferredSize(new Dimension(200, 100));
+                JLabel row = new JLabel("Score: " + r.getScore() + " | Balls: " + r.getNumBalls() + " | Speed: " + r.getSpeedType());
+                panel.add(row);
+                this.add(panel);
+            }
+        }
+        
+        this.setVisible(true);
     }
 
     /**
@@ -28,6 +68,7 @@ public class RecordsFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

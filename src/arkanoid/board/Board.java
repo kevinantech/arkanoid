@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import javax.swing.JLabel;
 import arkanoid.block.Block;
 import arkanoid.gamestate.*;
+import arkanoid.records.RecordsFrame;
 import arkanoid.score.Score;
 
 /**
@@ -55,6 +56,7 @@ public class Board extends javax.swing.JFrame implements ActionListener {
     ButtonGroup speedBtnGroup = new ButtonGroup();
     private Score score;
     private boolean playing = false;
+    private RecordsFrame recordsFrame;
     
     public Board() {
         panel.setBackground(Constants.primaryColor);
@@ -150,6 +152,8 @@ public class Board extends javax.swing.JFrame implements ActionListener {
          */
         JMenu recordsMenu = new JMenu("Records");
         JMenuItem menuItemShowBestTimes = new JMenuItem("Show best times");
+        menuItemShowBestTimes.addActionListener(this);
+        menuItemShowBestTimes.setActionCommand("OPEN_RECORDS");
         recordsMenu.add(menuItemShowBestTimes);
         menuBar.add(recordsMenu);
         
@@ -376,6 +380,11 @@ public class Board extends javax.swing.JFrame implements ActionListener {
             }
             case Constants.ACTION_BALLS_THREE: {
                 this.ballsPrefences = Constants.BALLS_THREE;
+                break;
+            }
+            case "OPEN_RECORDS": {
+                this.recordsFrame = new RecordsFrame();
+                this.recordsFrame.display();
                 break;
             }
         }

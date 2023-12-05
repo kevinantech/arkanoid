@@ -12,8 +12,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Comparator;
 /**
  *
  * @author KEVIN ANDRES GOMEZ M
@@ -32,7 +30,6 @@ public class RecordManager {
     }
     
     public void manageScore() {
-        System.out.println("Es un nuevo record?: " + (this.isNewRecord() ? "Si" : "No"));
         if(this.isNewRecord()) {
             FormScore fs = new FormScore(scoreValue, numBalls, speedType);
             fs.setLocationRelativeTo(null);
@@ -46,28 +43,40 @@ public class RecordManager {
             File f = new File("data\\records.csv");
             BufferedReader br = new BufferedReader(new FileReader(f));
             
+            // Salta los headers.
+            br.readLine(); 
+            
             // Carga en memoria los records.
-            for(int i = 0; i < 5; i++) {
-                String line;
-                br.readLine();
-                while((line=br.readLine()) != null){
+            String line;
+            int itemsFounds = 0;
+            
+            // Recorre la linea.
+            while((line=br.readLine()) != null){
+                if(itemsFounds < 5) {
                     String fLine[] = line.split(",");
-                    if(fLine.length == 4) {
-                        Record record = new Record(
-                                fLine[0], 
-                                Float.parseFloat(fLine[1]),
-                                Integer.parseInt(fLine[2]),
-                                fLine[3]
-                            );
-                        records[i] = record;
+                    Record record = new Record(
+                            fLine[0], 
+                            Float.parseFloat(fLine[1]),
+                            Integer.parseInt(fLine[2]),
+                            fLine[3]
+                        );
+                    records[itemsFounds] = record;
+                    itemsFounds++;
+                } else break;
+            }
+            
+            // Ordenar el arreglo
+            for(int i = 0; i < itemsFounds - 1; i++) {
+                for(int j = 0; j < itemsFounds - i - 1; i++) {
+                    if (records[j].getScore() < records[j + 1].getScore()) {
+                        Record temp = records[j];
+                        records[j] = records[j + 1];
+                        records[j + 1] = temp;
                     }
                 }
             }
             
-            // Ordenar el arreglo
-            
             return records;
-            
         } catch(IOException e) {
             System.out.println(e.getMessage());
             return new Record[5];
@@ -78,16 +87,18 @@ public class RecordManager {
         Record records[] = RecordManager.getRecordsFromFile();
         float s = (float) scoreValue / time;       
         
-        for(int i = 0; i < records.length; i++) {
-            System.out.println("Record " + (i + 1) + ": " + records[i]);
-            if(records[i] != null && s > records[i].getScore()) return true;
-            if(records[i] == null) return true;
+        for (Record record : records) {
+            if (record != null && s > record.getScore()) {
+                return true;
+            }
+            if (record == null) {
+                return true;
+            }
         }
         return false;
     }
     
     static public void saveNewRecord(Record r) {
-        System.out.println("PASADO POR PARAMETROS: " + r.getInitials() + ", PUNTOS: " + r.getScore());
         
         Record records[] = RecordManager.getRecordsFromFile();
         // Reemplaza el record con menor puntuacion en el arreglo.
@@ -107,10 +118,6 @@ public class RecordManager {
                     records[j + 1] = temp;
                 }
             }
-        }
-        
-        for(int i = 0; i < 5; i++) {
-            System.out.println((records[i].getScore() == 0 ? "VOID" : records[i].getInitials())  + ": " + records[i].getScore());
         }
         
         

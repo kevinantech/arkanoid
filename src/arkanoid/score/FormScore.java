@@ -164,6 +164,7 @@ public class FormScore extends javax.swing.JFrame {
         else {
             RecordManager.saveNewRecord(new Record(initials, score, numBalls, speedType));
             JOptionPane.showMessageDialog(this, "SUCCESSFULLY SAVED");
+            dispose();
         }
     }//GEN-LAST:event_jButton1MouseClicked
 
